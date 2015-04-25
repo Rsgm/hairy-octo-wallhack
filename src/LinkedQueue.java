@@ -1,7 +1,11 @@
-
 public class LinkedQueue<T> implements Queue<T> {
     private Node head = null;
     private int count = 0;
+    int capacity;
+
+    public LinkedQueue(int capacity) {
+        this.capacity = capacity;
+    }
 
     /**
      * Offer the item into this Queue at the rear end.
@@ -9,7 +13,10 @@ public class LinkedQueue<T> implements Queue<T> {
      * @param item
      * @return false if fail to do so, in case the capacity is restricted.
      */
-    public void offer(T item) {
+    public boolean offer(T item) {
+        if (size() == capacity) {
+            return false;
+        }
         if (size() == 0) {
             head = new Node(head, item);
         } else {
@@ -21,6 +28,7 @@ public class LinkedQueue<T> implements Queue<T> {
             x.next = temp;
         }
         count++;
+        return true;
     }
 
     /**

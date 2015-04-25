@@ -5,7 +5,7 @@ public interface Queue<T> {
      * @param item
      * @return false if fail to do so, in case the capacity is restricted.
      */
-    void offer(T item);
+    boolean offer(T item);
 
     /**
      * Remove the item at the front end. This is same as Remove but no exception will be thrown.
