@@ -1,17 +1,7 @@
 
-/**
- * Created by Ian_Leyden on 4/24/2015.
- */
-public class LQueue<T> extends java.lang.Object implements Queue<T>{
-    private Node head;
+public class LinkedQueue<T> implements Queue<T>{
+    private Node head = null;
     private int count = 0;
-
-    /**
-     * Default constructor initializes an empty queue.
-     */
-    public LQueue(){
-        head = null;
-    }
 
     /**
      * Offer the item into this Queue at the rear end.
@@ -25,7 +15,7 @@ public class LQueue<T> extends java.lang.Object implements Queue<T>{
         else {
             Node temp = new Node(head, item);
             Node x = head;
-            for (int i = 0; i < size(); i++) {
+            while(x.next != null){
                 x = x.next;
             }
             x.next = temp;

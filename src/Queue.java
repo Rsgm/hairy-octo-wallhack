@@ -1,6 +1,4 @@
-/**
- * Created by Ian_Leyden on 4/24/2015.
- */
+
 public interface Queue<T> {
     /**
      * Offer the item into this Queue at the rear end.
