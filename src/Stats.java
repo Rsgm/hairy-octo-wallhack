@@ -8,40 +8,46 @@
  * http://opensource.org/licenses/MIT
  */
 public class Stats {
-    int total;
-    int ezPass;
-    int maxWaiting;
-    int totalTime;
-    int nonEzPass;
+    double total;
+    double ezPass;
+    double maxWaiting;
+    double totalTime;
+    double nonEzPass;
     double nonEzTime;
 
-    public void totalCars(){
+    public void totalCars() {
         total++;
     }
 
-    public void ezTotal(){
+    public void ezTotal() {
         ezPass++;
     }
 
-    public double nonEzTotal(){
-        nonEzPass = ezPass - total;
+    public double nonEzTotal() {
+        nonEzPass = total - ezPass;
         return nonEzTime / nonEzPass;
     }
 
-    public void nEzProcess(double time){
+    /**
+     * Add to the sum of non ez process times1
+     *
+     * @param time
+     */
+    public void nEzProcess(double time) {
         nonEzTime += time;
     }
 
-    public void waiting(int waiting){
-        if (waiting > maxWaiting){
+    public void waiting(int waiting) {
+        if (waiting > maxWaiting) {
             maxWaiting = waiting;
         }
     }
-    public void totalTime(double time){
+
+    public void totalTime(double time) {
         totalTime += time;
     }
 
-    public double averageTime(){
+    public double averageTime() {
         return totalTime / total;
     }
 }

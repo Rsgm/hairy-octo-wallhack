@@ -1,12 +1,9 @@
 public class LinkedQueue<T> implements Queue<T> {
     private Node head = null;
+    private Node last = null;
     private int count = 0;
-    int capacity;
 
-    public LinkedQueue(){}
-
-    public LinkedQueue(int capacity) {
-        this.capacity = capacity;
+    public LinkedQueue() {
     }
 
     /**
@@ -16,18 +13,12 @@ public class LinkedQueue<T> implements Queue<T> {
      * @return false if fail to do so, in case the capacity is restricted.
      */
     public boolean offer(T item) {
-        if (size() == capacity) {
-            return false;
-        }
         if (size() == 0) {
-            head = new Node(head, item);
+            head = new Node(item);
+            last = head;
         } else {
-            Node temp = new Node(head, item);
-            Node x = head;
-            while (x.next != null) {
-                x = x.next;
-            }
-            x.next = temp;
+            last.next = new Node(item);
+            last = last.next;
         }
         count++;
         return true;
@@ -43,6 +34,11 @@ public class LinkedQueue<T> implements Queue<T> {
         if (empty()) {
             return null;
         }
+
+        if (head == last) {
+            last = null;
+        }
+
         T temp = head.data;
         head = head.next;
         count--;
@@ -83,11 +79,9 @@ public class LinkedQueue<T> implements Queue<T> {
         /**
          * constructor
          *
-         * @param next
          * @param data
          */
-        public Node(Node next, T data) {
-            this.next = next;
+        public Node(T data) {
             this.data = data;
         }
     }

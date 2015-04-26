@@ -11,11 +11,13 @@ public class Car {
     Stages stage;
     double arrivalTime;
     double processTime;
+    double arrivalTimeLength;
+    double processTimeLength;
 
     public Car(ExpDistribution nextCarArrive, NormalDistribution service) {
         stage = Stages.ARRIVE;
-        arrivalTime = nextCarArrive.next();
-        processTime = service.sample();
+        arrivalTimeLength = nextCarArrive.next();
+        processTimeLength = service.sample();
     }
 
     public double getTime() {
@@ -28,23 +30,55 @@ public class Car {
 
     public void addCurrentTime(double currentTime) {
         if (stage == Stages.ARRIVE) {
-            arrivalTime += currentTime;
+            arrivalTime = currentTime + arrivalTimeLength;
         } else {
-            processTime += currentTime;
+            processTime = currentTime + processTimeLength;
         }
     }
 
-    public Stages getStage(){
+    public double calculateTime() {
+        return processTime - arrivalTime;
+    }
+
+    public Stages getStage() {
         return stage;
     }
 
-    public void setStage(Stages stage){
+    public void setStage(Stages stage) {
         this.stage = stage;
     }
 
-   public double calculateTime(){
-       return processTime - arrivalTime;
-   }
+    public double getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(double arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public double getProcessTime() {
+        return processTime;
+    }
+
+    public void setProcessTime(double processTime) {
+        this.processTime = processTime;
+    }
+
+    public double getArrivalTimeLength() {
+        return arrivalTimeLength;
+    }
+
+    public void setArrivalTimeLength(double arrivalTimeLength) {
+        this.arrivalTimeLength = arrivalTimeLength;
+    }
+
+    public double getProcessTimeLength() {
+        return processTimeLength;
+    }
+
+    public void setProcessTimeLength(double processTimeLength) {
+        this.processTimeLength = processTimeLength;
+    }
 
     public enum Stages {
         ARRIVE, PROCESS;
