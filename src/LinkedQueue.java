@@ -3,6 +3,8 @@ public class LinkedQueue<T> implements Queue<T> {
     private int count = 0;
     int capacity;
 
+    public LinkedQueue(){}
+
     public LinkedQueue(int capacity) {
         this.capacity = capacity;
     }

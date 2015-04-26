@@ -1,5 +1,11 @@
 /**
- * Created by Ian_Leyden on 4/25/2015.
+ * Ian Leyden
+ * Ryan Mirman
+ * <p/>
+ * The source is on github at https://github.com/Rsgm/hairy-octo-wallhack
+ * <p/>
+ * Copyright under the MIT license
+ * http://opensource.org/licenses/MIT
  */
 public class Car {
     Stages stage;
@@ -12,7 +18,31 @@ public class Car {
         processTime = service.sample();
     }
 
-    public enum Stages{
+    public double getTime() {
+        if (stage == Stages.ARRIVE) {
+            return arrivalTime;
+        } else {
+            return processTime;
+        }
+    }
+
+    public void addCurrentTime(double currentTime) {
+        if (stage == Stages.ARRIVE) {
+            arrivalTime += currentTime;
+        } else {
+            processTime += currentTime;
+        }
+    }
+
+    public Stages getStage(){
+        return stage;
+    }
+
+    public void setStage(Stages stage){
+        this.stage = stage;
+    }
+
+    public enum Stages {
         ARRIVE, PROCESS;
     }
 }
