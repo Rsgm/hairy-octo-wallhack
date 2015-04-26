@@ -1,4 +1,3 @@
-import java.security.PrivateKey;
 import java.util.ArrayList;
 
 /**
@@ -19,13 +18,15 @@ public class Sim {
     private Queue<Car> arrivalQueue = new LinkedQueue<Car>();
     private Queue<Car> futureCarQueue = new LinkedQueue<Car>();
     private ArrayList<LinkedQueue<Car>> booths;
-    Stats stats = new Stats();
+    Stats stats;
 
-    public Sim(double mtime, double vtime, double flow, int numBooths) {
+    public Sim(double mtime, double vtime, double flow, int numBooths, Stats stats) {
         this.mtime = mtime;
         this.vtime = vtime;
         this.flow = flow;
+        this.stats = stats;
         this.booths = new ArrayList<LinkedQueue<Car>>(numBooths);
+
         for (int i = 0; i < numBooths; i++) {
             this.booths.add(new LinkedQueue<Car>(20));
         }
@@ -39,31 +40,32 @@ public class Sim {
             Car car = new Car(nextCarArrive, service);
             if (car.processTime < mtime){
                 car.processTime = 1.0;
-                stats.ezTotal();
+                this.stats.ezTotal();
             }else{
-                stats.nEzProcess(car.processTime);
+                this.stats.nEzProcess(car.processTime);
             }
             car.addCurrentTime(totalArrivalTime);
             futureCarQueue.offer(car);
-            stats.totalCars();
+            this.stats.totalCars();
             totalArrivalTime += car.arrivalTime;
         } while (totalArrivalTime < 10800);
     }
 
     public static void main(String[] args) {
         int numBooths = 2;
-        double mtime = 3;
-        double vtime = .5;
+        double mTime = 3;
+        double vTime = .5;
         double flow = .5;
-        new Sim(mtime, vtime, flow, numBooths).run();
+
         Stats stats = new Stats();
-        System.out.println("Simulation -- 3 hours (Booth No:" + numBooths + ") (Without EZ-Pass: m = " + mtime + ", v = " + vtime + ")");
+        new Sim(mTime, vTime, flow, numBooths, stats).run();
+
+        System.out.println("Simulation -- 3 hours (Booth No:" + numBooths + ") (Without EZ-Pass: m = " + mTime + ", v = " + vTime + ")");
         System.out.println("Flow: " + flow + " cars/Sec");
-        System.out.println("Total cars: " + stats.total + " EZ-Pass: " + stats.ezPass);
+        System.out.println("Total cars: " + stats.total + " EZ-Pass: " + stats.ezPass); // this came out to -3 once, we suspect time travel, but my past self says otherwise
         System.out.println("Average pass through window without EZ-Pass: " + stats.nonEzTotal() + " Secs");
         System.out.println("Max number of cars waiting on the road: " + stats.maxWaiting);
         System.out.println("Average total waiting time: " + stats.averageTime());
-
     }
 
     private void run() {
