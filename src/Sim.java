@@ -12,13 +12,14 @@ import java.util.ArrayList;
  */
 public class Sim {
     private double globalTime = 0;
-    private static double mtime = 0;
-    private static double vtime = 0;
-    private static double flow = 0;
-    private static int numBooths = 0;
+    private double mtime = 0;
+    private double vtime = 0;
+    private double flow = 0;
+    private int numBooths = 0;
     private Queue<Car> arrivalQueue = new LinkedQueue<Car>();
     private Queue<Car> futureCarQueue = new LinkedQueue<Car>();
     private ArrayList<LinkedQueue<Car>> booths;
+    Stats stats = new Stats();
 
     public Sim(double mtime, double vtime, double flow, int numBooths) {
         this.mtime = mtime;
@@ -36,20 +37,32 @@ public class Sim {
 
         do {
             Car car = new Car(nextCarArrive, service);
+            if (car.processTime < mtime){
+                car.processTime = 1.0;
+                stats.ezTotal();
+            }else{
+                stats.nEzProcess(car.processTime);
+            }
             car.addCurrentTime(totalArrivalTime);
             futureCarQueue.offer(car);
+            stats.totalCars();
             totalArrivalTime += car.arrivalTime;
         } while (totalArrivalTime < 10800);
     }
 
     public static void main(String[] args) {
-        new Sim(3,6,.5,2).run();
+        int numBooths = 2;
+        double mtime = 3;
+        double vtime = .5;
+        double flow = .5;
+        new Sim(mtime, vtime, flow, numBooths).run();
+        Stats stats = new Stats();
         System.out.println("Simulation -- 3 hours (Booth No:" + numBooths + ") (Without EZ-Pass: m = " + mtime + ", v = " + vtime + ")");
-        System.out.println("Flow: " + flow + " cars/sec");
-        System.out.println("Total cars: " );
-        System.out.println("Pass window without EZ-Pass: ");
-        System.out.println("Max number of cars waiting on the road: ");
-        System.out.println("Average waiting time: ");
+        System.out.println("Flow: " + flow + " cars/Sec");
+        System.out.println("Total cars: " + stats.total + " EZ-Pass: " + stats.ezPass);
+        System.out.println("Average pass through window without EZ-Pass: " + stats.nonEzTotal() + " Secs");
+        System.out.println("Max number of cars waiting on the road: " + stats.maxWaiting);
+        System.out.println("Average total waiting time: " + stats.averageTime());
 
     }
 
@@ -68,6 +81,7 @@ public class Sim {
                     min.offer(car);
                 }else{
                     arrivalQueue.offer(car);
+                    stats.waiting(arrivalQueue.size());
                 }
                 globalTime = car.getTime();
                 car.setStage(Car.Stages.PROCESS);
@@ -77,6 +91,7 @@ public class Sim {
                 if (arrivalQueue.size() != 0){
                     process.offer(arrivalQueue.poll());
                 }
+                stats.totalTime(car.calculateTime());
                 car = process.peek();
                 car.addCurrentTime(globalTime);
             }

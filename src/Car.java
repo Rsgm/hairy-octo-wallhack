@@ -11,6 +11,7 @@ public class Car {
     Stages stage;
     double arrivalTime;
     double processTime;
+    double totalTime;
 
     public Car(ExpDistribution nextCarArrive, NormalDistribution service) {
         stage = Stages.ARRIVE;
@@ -41,6 +42,10 @@ public class Car {
     public void setStage(Stages stage){
         this.stage = stage;
     }
+
+   public double calculateTime(){
+       return processTime - arrivalTime;
+   }
 
     public enum Stages {
         ARRIVE, PROCESS;
