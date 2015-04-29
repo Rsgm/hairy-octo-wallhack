@@ -1,5 +1,14 @@
 package myUtil;
 
+/**
+ * Ian Leyden
+ * Ryan Mirman
+ * <p/>
+ * The source is on github at https://github.com/Rsgm/hairy-octo-wallhack
+ * <p/>
+ * Copyright under the MIT license
+ * http://opensource.org/licenses/MIT
+ */
 public class LinkedQueue<T> implements Queue<T> {
     private Node head = null;
     private Node last = null;
@@ -9,7 +18,7 @@ public class LinkedQueue<T> implements Queue<T> {
     }
 
     /**
-     * Offer the item into this myUtil.Queue at the rear end.
+     * Offer the item into this Queue at the rear end.
      *
      * @param item
      * @return false if fail to do so, in case the capacity is restricted.
@@ -27,7 +36,7 @@ public class LinkedQueue<T> implements Queue<T> {
     }
 
     /**
-     * Remove the item from the myUtil.Queue at the front end.
+     * Remove the item from the Queue at the front end.
      * Since we are not dealing with null data null is the same as empty
      *
      * @return the item that is removed.
@@ -51,7 +60,7 @@ public class LinkedQueue<T> implements Queue<T> {
      * Peek at the first item at the front end.
      * Since we are not dealing with null data null is the same as empty
      *
-     * @return the first item at the front end, or null if this myUtil.Queue is empty.
+     * @return the first item at the front end, or null if this Queue is empty.
      */
     public T peek() {
         if (empty()) {
@@ -68,7 +77,7 @@ public class LinkedQueue<T> implements Queue<T> {
     }
 
     /**
-     * @return true if this myUtil.Queue is empty, false otherwise
+     * @return true if this Queue is empty, false otherwise
      */
     public boolean empty() {
         return head == null;

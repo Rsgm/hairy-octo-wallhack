@@ -11,7 +11,6 @@ import myUtil.NormalDistribution;
  * http://opensource.org/licenses/MIT
  */
 public class Car {
-
     Stages stage; // state of the car
     double arrivalTime; // time it takes to arrive after the last car
     double processTime; // time it takes to process                                     p
@@ -21,8 +20,8 @@ public class Car {
     /**
      * Initializes a car with the state as arriving. This will also set the car's times using the given prng.
      *
-     * @param nextCarArrive
-     * @param service
+     * @param nextCarArrive prng object
+     * @param service       prng object
      */
     public Car(ExpDistribution nextCarArrive, NormalDistribution service) {
         stage = Stages.ARRIVE;
