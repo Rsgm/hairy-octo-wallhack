@@ -1,3 +1,6 @@
+import myUtil.ExpDistribution;
+import myUtil.NormalDistribution;
+
 /**
  * Ian Leyden
  * Ryan Mirman

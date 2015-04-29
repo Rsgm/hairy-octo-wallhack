@@ -1,7 +1,8 @@
+package myUtil;
 
 public interface Queue<T> {
     /**
-     * Offer the item into this Queue at the rear end.
+     * Offer the item into this myUtil.Queue at the rear end.
      * @param item
      * @return false if fail to do so, in case the capacity is restricted.
      */
@@ -15,13 +16,13 @@ public interface Queue<T> {
 
     /**
      * Peek at the first item at the front end.
-     * @return the first item at the front end, or null if this Queue is empty.
+     * @return the first item at the front end, or null if this myUtil.Queue is empty.
      */
     T peek();
 
     /**
      *
-     * @return true if this Queue is empty, false otherwise
+     * @return true if this myUtil.Queue is empty, false otherwise
      */
     boolean empty();
 

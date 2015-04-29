@@ -1,3 +1,5 @@
+package myUtil;
+
 /**
  * Class of Exponential distributions
  * @author Chung-Chih Li
@@ -5,14 +7,14 @@
  */
 public class ExpDistribution {
 	private double theta;
-	
+
 	/**
 	 * @param theta is the mean of this distribution
 	 */
 	public ExpDistribution(double theta) {
 		this.theta = theta;
 	}
-	
+
 	/**
 	 *  This is the density function
 	 * @param x
@@ -21,20 +23,20 @@ public class ExpDistribution {
 	public double pdf(double x) {
 		return (1/Math.exp(x/theta))/theta;
 	}
-	
+
 	/**
 	 * @param x
-	 * @return the probability that there is no event before time x 
+	 * @return the probability that there is no event before time x
 	 */
 	public double no(double x) {
 		return 1/Math.exp(x/theta);
 	}
-	
+
 	/**
-	 * Time to next random event  
+	 * Time to next random event
 	 * @return
 	 */
-	public double next() {	
+	public double next() {
 		double p = Math.random();
 		return Math.log(1-p)*(-theta);
 	}
