@@ -89,7 +89,7 @@ public class Sim {
                     }
                 }
 
-                globalTime = car.getTime();
+                globalTime = car.time();
                 car.setStage(Car.Stages.PROCESS);
 
                 if (min.size() < 20) {
@@ -103,7 +103,7 @@ public class Sim {
                 }
             } else {
                 Car car = process.poll();
-                globalTime = car.getTime();
+                globalTime = car.time();
                 if (arrivalQueue.size() != 0) {
                     process.offer(arrivalQueue.poll());
                 }
@@ -120,8 +120,8 @@ public class Sim {
         Queue<Car> min = futureCarQueue;
         for (LinkedQueue<Car> booth : booths) {
             if (!booth.empty()) {
-                double i = booth.peek().getTime();
-                if (i < min.peek().getTime()) {
+                double i = booth.peek().time();
+                if (i < min.peek().time()) {
                     min = booth;
                 }
             }

@@ -11,19 +11,31 @@ import myUtil.NormalDistribution;
  * http://opensource.org/licenses/MIT
  */
 public class Car {
-    Stages stage;
-    double arrivalTime;
-    double processTime;
-    double arrivalTimeLength;
-    double processTimeLength;
 
+    Stages stage; // state of the car
+    double arrivalTime; // time it takes to arrive after the last car
+    double processTime; // time it takes to process                                     p
+    double arrivalTimeLength; // the exact time at which the car will have arrived
+    double processTimeLength; // the time at which the car will have finished processing
+
+    /**
+     * Initializes a car with the state as arriving. This will also set the car's times using the given prng.
+     *
+     * @param nextCarArrive
+     * @param service
+     */
     public Car(ExpDistribution nextCarArrive, NormalDistribution service) {
         stage = Stages.ARRIVE;
         arrivalTimeLength = nextCarArrive.next();
         processTimeLength = service.sample();
     }
 
-    public double getTime() {
+    /**
+     * Gives the time until the current stage finishes.
+     *
+     * @return the finish time of the current stage
+     */
+    public double time() {
         if (stage == Stages.ARRIVE) {
             return arrivalTime;
         } else {
@@ -31,6 +43,11 @@ public class Car {
         }
     }
 
+    /**
+     * Adds the current time to the current stage of the car.
+     *
+     * @param currentTime the current time of the simulation
+     */
     public void addCurrentTime(double currentTime) {
         if (stage == Stages.ARRIVE) {
             arrivalTime = currentTime + arrivalTimeLength;
@@ -39,9 +56,24 @@ public class Car {
         }
     }
 
+    /**
+     * Calculate the time it took from arrival until it has finished processing.
+     *
+     * @return the time the car took to go through the full cycle of events
+     */
     public double calculateTime() {
         return processTime - arrivalTime;
     }
+
+    /**
+     * The type of the car's state it is currently in.
+     */
+    public enum Stages {
+        ARRIVE, PROCESS
+    }
+
+    // getters and setters below
+    // -------------------------
 
     public Stages getStage() {
         return stage;
@@ -81,9 +113,5 @@ public class Car {
 
     public void setProcessTimeLength(double processTimeLength) {
         this.processTimeLength = processTimeLength;
-    }
-
-    public enum Stages {
-        ARRIVE, PROCESS;
     }
 }
