@@ -72,26 +72,26 @@ public class Sim {
         System.out.println("Flow: " + flow + " cars/Sec");
         System.out.println("Total cars: " + stats.total + " EZ-Pass: " +
                            stats.ezPass); // this came out to -3 once, we suspect time travel, but my past self says otherwise
-        System.out.println("Average pass through window without EZ-Pass: " + stats.nonEzTotal() + " Secs");
-        System.out.println("Max number of cars waiting on the road: " + stats.maxWaiting);
-        System.out.println("Average total waiting time: " + stats.averageTime());
+        System.out.println("Average pass through window without EZ-Pass: " + stats.nonEzTotal() + " Secs"); //^this comment got me 200+ karma
+        System.out.println("Max number of cars waiting on the road: " + stats.maxWaiting);                  //on /r/programmerhumor
+        System.out.println("Average total waiting time: " + stats.averageTime());                               //the problem is fixed now
     }
 
     private void run() {
         while (!futureCarQueue.empty()) {
             Queue<Car> process = nextCar();
-            if (process.peek().getStage() == Car.Stages.ARRIVE) {
+            if (process.peek().getStage() == Car.Stages.ARRIVE) { //checks if car is at arrival
                 Car car = process.poll();
-                Queue<Car> min = booths.get(0);
+                Queue<Car> min = booths.get(0); //the car with the lowest time goes first
                 for (LinkedQueue<Car> booth : booths) {
-                    if (booth.size() < min.size()) {
+                    if (booth.size() < min.size()) { //car finds the shortest queue for a booth
                         min = booth;
                     }
                 }
-
+                globalTime = car.time(); //time is added
+                car.setStage(Car.Stages.PROCESS); //stage is changed
                 globalTime = car.time();
                 car.setStage(Car.Stages.PROCESS);
-
                 if (min.size() < 20) {
                     min.offer(car);
                     if (min.size() == 1) {
@@ -121,6 +121,7 @@ public class Sim {
         for (LinkedQueue<Car> booth : booths) {
             if (!booth.empty()) {
                 double i = booth.peek().time();
+                //checks if any of the booths has a car with a time that comes before that of the futureCarQueue or current minimum time
                 if (i < min.peek().time()) {
                     min = booth;
                 }
